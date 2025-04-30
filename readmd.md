@@ -1,57 +1,61 @@
-# 救世者之樹主程式自動下載器 / Tree of Savior Auto Downloader
+# 🎮 救世者之樹主程式自動下載器 (Tree of Savior Client Auto Downloader)
 
-一個用 Python 製作的 GUI 工具，可自動從台灣「救世者之樹」官網擷取主程式安裝檔（exe + bin），支援斷點續傳、多檔並行下載、暫停/繼續、進度顯示與剩餘時間估算。
-
----
-
-## 📦 功能特色 / Features
-
-- ✅ 自動擷取 Tree of Savior 安裝連結
-- ✅ 支援 .exe + 多個 .bin 分段下載
-- ✅ 支援斷點續傳 (resume download)
-- ✅ 支援暫停 / 繼續下載控制
-- ✅ 支援多檔案同時下載（最高 4 檔）
-- ✅ 顯示每個檔案的剩餘時間
-- ✅ 下載完成自動開啟資料夾
-- ✅ GUI 使用 tkinter，無需命令列操作
+本專頁是一個圖形化介面（GUI）下載工具，可自動從 Tree of Savior 台服官網採集主程式各分段檔案（.exe 與 .bin），並支援：
+- 多檔並行下載 ✅
+- 斷點繼傳 ✅
+- 暫停與繼續 ✅
+- 剩餘時間估算 ✅
+- 自動提示完成並打開資料夾 ✅
 
 ---
 
-## 📥 安裝與執行方式 / Installation & Execution
+## 🖥️ 執行方式（使用者）
 
-### 🔹 方法一：使用 Python 執行
+### ✅ 1. 使用打包好的 `.exe` 可執行檔 (適合 Windows 使用者)
 
-#### 1️⃣ 安裝 Python
-請先安裝 Python 3.10 以上版本。
+> 我們不再直接提供 `.exe` 單檔，以避免被 Defender 或防毒軟體誤認為病毒。
 
-#### 2️⃣ 安裝依賴套件
+請則下載「壓縮包」：
+1. 前往 [Releases](./-/releases)
+2. 下載最新版本的 `tos-downloader-vX.X.X.zip`
+3. 解壓後執行 `tos_downloader_gui.exe`
+4. 請確認\u SHA256 核心檢查碼和原本一致
+
+
+### 🥍 2. 開發者 / Linux / macOS 用 Python 執行
+
+#### 安裝相依契約：
 ```bash
 pip install -r requirements.txt
 ```
 
-#### 3️⃣ 執行 GUI 工具
+#### 執行主程式：
 ```bash
 python tos_downloader_gui.py
 ```
 
-### 🔹 方法二：使用可執行檔（.exe）
-
-下載 release 中的 `tos_downloader_gui.exe` 並執行，**不需安裝 Python**。
-
 ---
 
-## 🛠️ 打包為 exe（開發者用）
+## 🛠️ 開發者建議 (打包 .exe)
 
+### 使用 PyInstaller 打包
 ```bash
-pip install -r requirements.txt
 pyinstaller --noconsole --onefile tos_downloader_gui.py
 ```
+打包後檔案會在 `dist/tos_downloader_gui.exe`
 
-打包後 `.exe` 會出現在 `dist/` 資料夾。
+
+### 建議重命名並用 ZIP 方式發佈：
+```text
+release-vX.X.X/
+├── tos_downloader_gui.exe
+├── README.txt      # 執行說明
+├── SHA256.txt      # certutil -hashfile tos_downloader_gui.exe SHA256 產生
+```
 
 ---
 
-## 📄 requirements.txt
+## 🔧 套件需求 (requirements.txt)
 ```txt
 requests>=2.31.0
 beautifulsoup4>=4.12.2
@@ -62,56 +66,65 @@ tk
 
 ---
 
-## 🚀 GitLab CI/CD 自動產出 release
-請參考 `.gitlab-ci.yml` 設定，自動建立 tag 並將 exe 發佈至 Release 區。
+## 🌐 English Version
 
----
+# 🎮 Tree of Savior Client Auto Downloader
 
-## 📝 License
-MIT License.
+This Python GUI tool automatically fetches Tree of Savior client chunks (.exe and .bin) from the official download page, with:
+- Concurrent download ✅
+- Resume support ✅
+- Pause & resume ✅
+- ETA display ✅
+- Folder auto-open after download ✅
 
----
 
-# Tree of Savior Auto Downloader (English)
+## 🖥️ How to Use
 
-A Python GUI tool to auto-download Taiwan's Tree of Savior full game installer files (.exe + .bin) with pause/resume, multithreading, and download progress tracking.
+### ✅ 1. Windows Users
+> We do NOT directly distribute `.exe` to avoid Windows Defender false positives.
 
----
+Instead:
+1. Go to [Releases](./-/releases)
+2. Download the latest `tos-downloader-vX.X.X.zip`
+3. Extract and run `tos_downloader_gui.exe`
+4. Check SHA256 hash for safety
 
-## Features
 
-- ✅ Auto fetch download links from official website
-- ✅ Support segmented download (exe + bin)
-- ✅ Resume support (HTTP Range)
-- ✅ Pause / Resume button
-- ✅ Multi-thread download (up to 4)
-- ✅ Remaining time estimation per file
-- ✅ Auto open download folder on finish
-- ✅ Simple GUI (Tkinter-based)
-
----
-
-## Run Instructions
-
-### 🔹 Method 1: Run via Python
+### 🥍 2. Developers or macOS/Linux
 ```bash
 pip install -r requirements.txt
 python tos_downloader_gui.py
 ```
 
-### 🔹 Method 2: Download .exe release
-Download the latest `tos_downloader_gui.exe` from [Releases] and run directly.
 
 ---
 
-## Build as .exe (Developer use)
+## 🛠️ Build EXE (Developer)
 ```bash
 pyinstaller --noconsole --onefile tos_downloader_gui.py
 ```
+Output will be at: `dist/tos_downloader_gui.exe`
 
-The `.exe` will be generated in `dist/` folder.
+To release, zip it with a README + SHA256:
+```
+tos-downloader-vX.X.X.zip
+├── tos_downloader_gui.exe
+├── README.txt
+├── SHA256.txt
+```
 
 ---
 
-## License
-MIT License
+## 🔧 Requirements
+```txt
+requests>=2.31.0
+beautifulsoup4>=4.12.2
+urllib3>=2.2.1
+pyinstaller==5.13.2
+tk
+```
+
+---
+
+## 📄 License
+MIT

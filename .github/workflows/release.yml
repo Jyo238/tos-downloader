@@ -20,18 +20,27 @@ jobs:
 
       - name: Install dependencies
         run: |
-          python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Build EXE
+      - name: Build EXE with PyInstaller
         run: pyinstaller --noconsole --onefile tos_downloader_gui.py
 
-      - name: Confirm build output
-        run: dir dist
+      - name: Generate SHA256
+        shell: cmd
+        run: |
+          certutil -hashfile dist/tos_downloader_gui.exe SHA256 > dist/SHA256.txt
 
-      - name: Upload to GitHub Release
+      - name: Generate README
+        run: |
+          echo "救世者之樹主程式自動下載器\n\n請解壓縮後執行 tos_downloader_gui.exe。\n\n若被防毒軟體誤判，請使用 SHA256 驗證檔案完整性。\n" > dist/README.txt
+
+      - name: Zip release files
+        run: |
+          powershell Compress-Archive -Path dist/tos_downloader_gui.exe,dist/README.txt,dist/SHA256.txt -DestinationPath dist/tos-downloader-v${{ github.ref_name }}.zip
+
+      - name: Upload Release Asset
         uses: softprops/action-gh-release@v1
         with:
-          files: dist/tos_downloader_gui.exe
+          files: dist/tos-downloader-v${{ github.ref_name }}.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
